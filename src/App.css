@@ -1,0 +1,19 @@
+.App {
+  font-size: 1.5rem;
+}
+.form-control,
+.col-form-control {
+  margin: 0.3rem;
+}
+
+.comp {
+  padding: 1rem;
+}
+
+.card {
+  margin: 0.5rem;
+}
+
+button {
+  margin: 0.5rem;
+}
