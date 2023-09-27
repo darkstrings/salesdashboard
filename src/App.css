@@ -1,5 +1,7 @@
 .App {
   font-size: 1.5rem;
+  height: 100vh;
+  width: 100vw;
 }
 .form-control,
 .col-form-control {
@@ -12,8 +14,14 @@
 
 .card {
   margin: 0.5rem;
+  background-color: bisque;
+  overflow: auto;
 }
 
 button {
   margin: 0.5rem;
+}
+
+.sold-items {
+  max-height: 90vh;
 }
