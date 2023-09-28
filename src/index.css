@@ -2,7 +2,6 @@ body {
   background-image: url("img/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-}
-.rookie-numbers {
-  width: 100%;
+  font-family: "Limelight", cursive;
+  background-color: black;
 }

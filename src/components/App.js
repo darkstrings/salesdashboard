@@ -47,7 +47,7 @@ function App() {
     <div className="App container">
       <div className="row">
         <div className="col-lg-12 text-center card">
-          <h1>Sales Dashboard</h1>
+          <h1 className="banner">Sales Dashboard</h1>
         </div>
       </div>
       <div className="row">
