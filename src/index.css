@@ -1,7 +1,10 @@
 body {
-  background-image: url("img/background.jpg");
+  background-image: url("../public/img/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   font-family: "Limelight", cursive;
   background-color: black;
+}
+.form-control {
+  background-color: beige;
 }
