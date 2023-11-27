@@ -1,41 +1,63 @@
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-function AddSale({ onAddItem, comm, commTotalEarned, setCommTotalEarned, onNumInputChange }) {
+
+function AddSale({ comm, dispatch }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [splitNum, setSplitNum] = useState(0);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const parsedPrice = parseFloat(price);
-    let parsedSplitNum = parseFloat(splitNum);
-    let commAsNumber = parseFloat(comm);
-
-    if (comm === "") {
-      commAsNumber = 0;
-      parsedSplitNum = 0;
-    }
-
-    if (name !== "" && !isNaN(parsedPrice) && !isNaN(parsedSplitNum) && !isNaN(comm)) {
-      const id = uuid();
-      const commDivide = parsedSplitNum + 1;
-
-      const newItem = {
-        id,
-        name,
-        price: parsedPrice,
-        splitNum: parsedSplitNum,
-        commissionEarned: parsedSplitNum > 0 ? (parsedPrice * commAsNumber) / commDivide : parsedPrice * commAsNumber,
-      };
-      onAddItem(newItem);
-      setName("");
-      setPrice("");
-      setSplitNum(0);
-      setCommTotalEarned(newItem.commissionEarned + commTotalEarned);
+  function handleNumInputChange(e, setterFunction) {
+    const value = e.target.value;
+    if (value === "") {
+      setterFunction("");
+    } else if (!isNaN(value)) {
+      const parsedValue = parseFloat(value);
+      setterFunction(parsedValue);
     } else {
-      return;
+      setterFunction("");
     }
   }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (
+      comm === null ||
+      comm === undefined ||
+      comm === "" ||
+      price === null ||
+      price === undefined ||
+      price === "" ||
+      splitNum === null ||
+      splitNum === undefined ||
+      name === null ||
+      name === undefined ||
+      name === ""
+    ) {
+      return;
+    }
+
+    const parsedPrice = parseFloat(price);
+    const parsedSplitNum = parseFloat(splitNum);
+    const commAsNumber = parseFloat(comm);
+
+    const id = uuid();
+    const commDivide = parsedSplitNum + 1;
+
+    const newItem = {
+      id,
+      name,
+      price: parsedPrice,
+      splitNum: parsedSplitNum,
+      commissionEarned: parsedSplitNum > 0 ? (parsedPrice * commAsNumber) / commDivide : parsedPrice * commAsNumber,
+    };
+
+    dispatch({ type: "addItem", payload: newItem });
+    setName("");
+    setPrice("");
+    setSplitNum(0);
+  }
+
   return (
     <div className="add-sale-form container comp">
       <h2>Sold Item Entry</h2>
@@ -58,8 +80,8 @@ function AddSale({ onAddItem, comm, commTotalEarned, setCommTotalEarned, onNumIn
               id="price"
               className="form-control"
               type="text"
-              value={price === 0 ? "" : price}
-              onChange={(e) => onNumInputChange(e, setPrice)}
+              value={price === "" ? "" : price}
+              onChange={(e) => handleNumInputChange(e, setPrice)}
             />
           </div>
         </div>
@@ -68,7 +90,13 @@ function AddSale({ onAddItem, comm, commTotalEarned, setCommTotalEarned, onNumIn
             Number of splits
           </label>
           <div className="col-sm-4">
-            <input id="split" className="form-control" type="text" value={splitNum} onChange={(e) => onNumInputChange(e, setSplitNum)} />
+            <input
+              id="split"
+              className="form-control"
+              type="text"
+              value={splitNum}
+              onChange={(e) => handleNumInputChange(e, setSplitNum)}
+            />
           </div>
         </div>
 

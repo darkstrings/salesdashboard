@@ -1,4 +1,4 @@
-function Fixed({ onCommChange, comm, setHourly, hourly, setHours, hours, onNumInputChange }) {
+function Fixed({ comm, hourly, hours, dispatch }) {
   return (
     <div className="fixed-form container comp">
       <h2>Fixed Amounts</h2>
@@ -7,7 +7,15 @@ function Fixed({ onCommChange, comm, setHourly, hourly, setHours, hours, onNumIn
           Commission Rate
         </label>
         <div className="col-sm-4">
-          <input id="commissionRate" className="form-control" type="text" value={comm} onChange={(e) => onCommChange(e)} />
+          <input
+            id="commissionRate"
+            className="form-control"
+            type="text"
+            value={comm}
+            onChange={(e) => {
+              dispatch({ type: "commRate", payload: e.target.value });
+            }}
+          />
         </div>
       </div>
       <div className="form-group row">
@@ -15,7 +23,15 @@ function Fixed({ onCommChange, comm, setHourly, hourly, setHours, hours, onNumIn
           Hourly Wage
         </label>
         <div className="col-sm-4">
-          <input id="hourlyWage" className="form-control" type="text" value={hourly} onChange={(e) => onNumInputChange(e, setHourly)} />
+          <input
+            id="hourlyWage"
+            className="form-control"
+            type="text"
+            value={hourly}
+            onChange={(e) => {
+              dispatch({ type: "hourly", payload: e.target.value });
+            }}
+          />
         </div>
       </div>
       <div className="form-group row">
@@ -23,7 +39,15 @@ function Fixed({ onCommChange, comm, setHourly, hourly, setHours, hours, onNumIn
           Hours worked
         </label>
         <div className="col-sm-4">
-          <input id="hoursWorked" className="form-control" type="text" value={hours} onChange={(e) => onNumInputChange(e, setHours)} />
+          <input
+            id="hoursWorked"
+            className="form-control"
+            type="text"
+            value={hours}
+            onChange={(e) => {
+              dispatch({ type: "hours", payload: e.target.value });
+            }}
+          />
         </div>
       </div>
     </div>

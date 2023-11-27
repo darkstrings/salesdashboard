@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer } from "react";
 
 import "../../src/App.css";
 import Fixed from "./Fixed";
@@ -6,42 +6,73 @@ import AddSale from "./AddSale";
 import Totals from "./Totals";
 import DisplaySales from "./DisplaySales";
 
-const soldItems = [];
+const initialState = {
+  soldItems: [],
+  comm: "",
+  hourly: 0,
+  hours: 0,
+  commTotalEarned: 0,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "commRate":
+      let value = action.payload;
+      if (/^\d+$/.test(value)) {
+        value = parseFloat("0." + value);
+      }
+      return { ...state, comm: value };
+
+    case "hourly":
+      if (action.payload === "") {
+        return { ...state };
+      } else if (!isNaN(action.payload)) {
+        const value = parseFloat(action.payload);
+
+        return { ...state, hourly: value };
+      } else {
+        return { ...state };
+      }
+    case "hours":
+      if (action.payload === "") {
+        return { ...state };
+      } else if (!isNaN(action.payload)) {
+        const value = parseFloat(action.payload);
+
+        return { ...state, hours: value };
+      } else {
+        return { ...state };
+      }
+
+    case "addItem":
+      return {
+        ...state,
+        commTotalEarned: state.commTotalEarned + action.payload.commissionEarned,
+        soldItems: [
+          ...state.soldItems,
+          {
+            id: action.payload.id,
+            name: action.payload.name,
+            price: action.payload.price,
+            splitNum: action.payload.splitNum,
+            commissionEarned: action.payload.commissionEarned,
+          },
+        ],
+      };
+    case "deleteItem":
+      return {
+        ...state,
+        commTotalEarned: state.commTotalEarned - action.payload.commissionEarned,
+        soldItems: [...state.soldItems.filter((item) => action.payload.id !== item.id)],
+      };
+
+    default:
+      throw new Error("Action unknown");
+  }
+}
 
 function App() {
-  const [items, setSoldItems] = useState(soldItems);
-  const [comm, setComm] = useState("");
-  const [hourly, setHourly] = useState("");
-  const [hours, setHours] = useState("");
-  const [commTotalEarned, setCommTotalEarned] = useState(0);
-
-  function handleAddItem(newItem) {
-    setSoldItems((soldItems) => [...soldItems, newItem]);
-  }
-
-  function handleNumInputChange(e, setterFunction) {
-    if (e.target.value === "") {
-      setterFunction("");
-    } else if (!isNaN(e.target.value)) {
-      const value = parseFloat(e.target.value);
-      setterFunction(value);
-    } else {
-      setterFunction("");
-    }
-  }
-
-  function handleCommissionChange(e) {
-    let value = e.target.value;
-    if (/^\d+$/.test(value)) {
-      value = parseFloat("0." + value);
-    }
-
-    setComm(value);
-  }
-  function handleDeleteItem(itemToDelete) {
-    setCommTotalEarned(commTotalEarned - itemToDelete.commissionEarned);
-    setSoldItems((items) => items.filter((item) => itemToDelete.id !== item.id));
-  }
+  const [{ soldItems, comm, hourly, hours, commTotalEarned }, dispatch] = useReducer(reducer, initialState);
 
   return (
     <div className="App container">
@@ -54,26 +85,10 @@ function App() {
         <div className="col-lg-6 forms-col">
           <div className="d-flex flex-column">
             <div className="card">
-              <Fixed
-                onNumInputChange={handleNumInputChange}
-                setComm={setComm}
-                onCommChange={handleCommissionChange}
-                comm={comm}
-                setHourly={setHourly}
-                hourly={hourly}
-                setHours={setHours}
-                hours={hours}
-              />
+              <Fixed dispatch={dispatch} comm={comm} />
             </div>
             <div className="card">
-              <AddSale
-                onNumInputChange={handleNumInputChange}
-                onAddItem={handleAddItem}
-                comm={comm}
-                setComm={setComm}
-                commTotalEarned={commTotalEarned}
-                setCommTotalEarned={setCommTotalEarned}
-              />
+              <AddSale dispatch={dispatch} comm={comm} />
             </div>
             <div className="card">
               <Totals hourly={hourly} hours={hours} commTotalEarned={commTotalEarned} />
@@ -82,7 +97,7 @@ function App() {
         </div>
         <div className="col-lg-6">
           <div className="card display-sales">
-            <DisplaySales setSoldItems={setSoldItems} soldItems={items} onDelete={handleDeleteItem} />
+            <DisplaySales dispatch={dispatch} soldItems={soldItems} />
           </div>
         </div>
       </div>

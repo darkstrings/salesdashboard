@@ -28,13 +28,17 @@ button {
 .sold-items {
   max-height: 90vh;
 }
-
-.total-grand,
-.total-comm,
-.total-hourly {
+.num-display {
   color: rgb(67, 209, 67);
 }
 
 .banner {
   padding: 0.5rem;
+}
+@media screen and (max-width: 800px) {
+  .App {
+    font-size: 1rem;
+    margin-top: 1rem;
+    width: 95vw;
+  }
 }

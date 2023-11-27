@@ -8,3 +8,10 @@ body {
 .form-control {
   background-color: beige;
 }
+@media screen and (max-width: 800px) {
+  body {
+    background-size: contain;
+    background-repeat: repeat-y;
+    font-size: 2rem;
+  }
+}

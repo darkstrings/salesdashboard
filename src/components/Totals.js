@@ -3,13 +3,13 @@ function Totals({ hourly, hours, commTotalEarned }) {
     <div className="totals container comp">
       <h2>Totals</h2>
       <p>
-        Your total commission earned is <span className="total-comm">${commTotalEarned}</span>
+        Your total commission earned is <span className="num-display">${commTotalEarned}</span>
       </p>
       <p>
-        Your total from your hourly is <span className="total-hourly">${hourly * hours}</span>
+        Your total from your hourly is <span className="num-display">${hourly * hours}</span>
       </p>
       <p>
-        Your grand total is <span className="total-grand">${hourly * hours + commTotalEarned}</span>
+        Your grand total is <span className="num-display">${hourly * hours + commTotalEarned}</span>
       </p>
     </div>
   );
