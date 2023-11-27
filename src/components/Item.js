@@ -14,7 +14,7 @@ function Item({ item, dispatch }) {
             type="button"
             className="btn btn-outline-danger"
             onClick={() => {
-              dispatch({ type: "deleteItem", payload: item.id });
+              dispatch({ type: "deleteItem", payload: item });
             }}>
             Delete
           </button>
