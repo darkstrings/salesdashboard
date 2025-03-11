@@ -1,6 +1,6 @@
 # 💼 Sales Dashboard
 
-**Sales Dashboard** is a simple yet effective app designed to calculate paychecks based on sales and commission rates. With its clean and intuitive UI, it enables users to manage sales records, compute earnings, and keep track of total commissions earned.
+**Sales Dashboard** is a simple yet effective app designed to calculate paychecks based on sales and commission rates. With its straight-forward, intuitive UI, it enables users to manage sales records, compute earnings, and keep track of total commissions earned.
 
 ---
 
